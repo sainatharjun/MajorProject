@@ -90,7 +90,7 @@
       $.ajax({
         url: "/createPost", 
         type:'post',
-        data:{pTitle:pTitle,pDesc:pDesc,pTimestamp:pTimestamp},
+        data:{pTitle:pTitle,pDesc:pDesc,pTimestamp:pTimestamp,upvotes:0,downvotes:0,pId:Math.floor(100000 + Math.random() * 900000),replies:{}},
         success: function(result){
     
           console.log(result)

@@ -18,10 +18,14 @@ let plagiarismCheck = require('./modeler/plagiarismCheck');
 let fuzzyLogic = require('./modeler/fuzzyLogic');
 let createPost = require('./modeler/createPost');
 let getPosts = require('./modeler/getPosts');
+let addReply = require('./modeler/addReply');
+let upvote = require('./modeler/upvote');
+let downvote = require('./modeler/downvote');
+
 
 // do url routing
 app.get('/',(req,res)=>{
-    res.sendFile(path.join(__dirname,'public/index.html'));
+    res.sendFile(path.join(__dirname,'public/detail.html'));
 });
 
 
@@ -48,6 +52,18 @@ app.get('/getPosts',(req,res)=>{
 app.post('/createPost',(req,res)=>{
     //const s = req.session;
     createPost.createPost(req,res);
+})
+app.post('/addReply',(req,res)=>{
+    //const s = req.session;
+    addReply.addReply(req,res);
+})
+app.post('/upvote',(req,res)=>{
+    //const s = req.session;
+    upvote.upvote(req,res);
+})
+app.post('/downvote',(req,res)=>{
+    //const s = req.session;
+    downvote.downvote(req,res);
 })
 
 // listen @ 3000

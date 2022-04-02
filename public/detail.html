@@ -16,17 +16,35 @@
                 url:'getPosts',
                 success: (res)=>{
                     let text=""
-                    res[1].forEach(x => {
-                        console.log(JSON.stringify(x))
-
+                    let replies=""
+                    let keys=Object.keys(res[1])
+                    keys.forEach(x => {
+                        console.log(res[1][x].replies)
+                        let replyKeys=Object.keys(res[1][x].replies)
+                        replyKeys.forEach((r)=>{
+                            replies+=`
+                            <li>${res[1][x].replies[r].reply}<br>
+                                <button>Upvotes:${res[1][x].replies[r].upvotes}</button><button>Downvotes:${res[1][x].replies[r].downvotes}</button></li>
+                            `
+                        })
                         text+=`
                         <div class="post">
-                        <div class="post-title"><h5 style="margin:0;font-size:30px">${x.pTitle}</h5></div>
-                        <div class="post-desc">${x.pDesc}</div>
-                        <div class="post-time">Created on: ${Date(x.pTimestamp)}</div>
-                        <input type="button" id="makeNFT" onclick=makeNFT('${JSON.stringify(x)}') value="Make this an NFT">
+                        <div class="post-title"><h5 style="margin:0;font-size:30px">${res[1][x].pTitle}</h5></div>
+                        <button onclick="upvote(event,'${res[1][x].pId}')">Upvotes:${res[1][x].upvotes}</button>
+                        <button onclick="downvote(event,'${res[1][x].pId}')">Downvotes:${res[1][x].downvotes}</button>
+                        <div class="post-desc">${res[1][x].pDesc}</div>
+                        <div class="post-time">Created on: ${Date(res[1][x].pTimestamp)}</div>
+                        <div class="post-reply-div">
+                            <h4>Replies/Comments</h4>
+                            <ul class="replies">
+                                ${replies}
+                            </ul>
+                            <input placeholder="Post Reply" id="reply${res[1][x]._id}"><input value="Post" onclick=addReply('${res[1][x]._id}','${res[1][x].pId}') id="replyButton${res[1][x]._id}" data-replies='${JSON.stringify(res[1][x].replies)}' type="submit">
+                        </div>
+                        <input type="button" id="makeNFT${res[1][x]._id}" onclick=makeNFT('${res[1][x]._id}') data-post='${JSON.stringify(res[1][x])}' value="Make this an NFT">
                         </div>
                         `
+                        console.log(JSON.stringify(res[1][x]))
                     });    
                     
                     $('.container').html(text)
@@ -34,15 +52,57 @@
             })
         })
 
-        function makeNFT(post){
+        function upvote(evt,pId){
+            $.ajax({
+                url:'upvote',
+                type:'post',
+                data:{pId:pId},
+                success:(res)=>{
+                    alert(res);
+                    evt.target.disabled=true
+                }
+            })
+        }
+        function downvote(evt,pId){
+            $.ajax({
+                url:'downvote',
+                type:'post',
+                data:{pId:pId},
+                success:(res)=>{
+                    alert(res);
+                    evt.target.disabled=true
+                }
+            })
+        }
+
+        function makeNFT(id){
+            post=JSON.parse($('#makeNFT'+id).attr('data-post'))
             $.ajax({
             url: "/fuzzyLogic",
             type: 'post',
-            data:{post},
+            data:{post:JSON.stringify(post)},
             success: function(result){
             alert('NFT Created')
                     }
             });
+        }
+
+        function addReply(id,pId){
+            let replies=JSON.parse($('#replyButton'+id).attr('data-replies'))
+            let reply=$('#reply'+id).val()
+            let keys=Object.keys(replies)
+            replies[keys.length]={reply:reply,upvotes:0,downvotes:0}
+            console.log(replies)
+            $.ajax({
+                url:'addReply',
+                type:'post',
+                data:{replies:JSON.stringify(replies),id:id,pId:pId},
+                success:(res)=>{
+                    console.log(res);
+                    location.reload()
+
+                }
+            })
         }
     </script>
 </head>

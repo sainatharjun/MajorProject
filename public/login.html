@@ -99,7 +99,7 @@
         type:'post',
         data:{username,password},
         success: function(result){
-    
+          sessionStorage['user']=result[1]
           console.log(result)
           location.replace('detail.html')
     

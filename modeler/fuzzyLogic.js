@@ -8,9 +8,9 @@ const fuzzyis = require('fuzzyis');
 
 
 function putNFT(a,post){
+  console.log(post)
   console.log('Plagiarism Check Done')
   if(a='ok'){
-
 
     MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
       var dbo = db.db("NFTForum");
@@ -31,7 +31,7 @@ function putNFT(a,post){
 
 
 module.exports.fuzzyLogic = async (req,res) => {
-
+  req.body.post=JSON.parse(req.body.post)
   const {LinguisticVariable, Term, Rule, FIS} = fuzzyis;
   
   // describe new system, input and output variables
@@ -43,17 +43,17 @@ module.exports.fuzzyLogic = async (req,res) => {
   const CORRECTNESS = new LinguisticVariable('correctness', [0, 30]);
   system.addOutput(CORRECTNESS);
   
-  const KNOWLEDGE = new LinguisticVariable('knowledge', [0, 10]);
+  const UPVOTES = new LinguisticVariable('UPVOTES', [0, 10]);
   const EXPERIENCE = new LinguisticVariable('experience', [0, 10]);
   
-  system.addInput(KNOWLEDGE);
+  system.addInput(UPVOTES);
   system.addInput(EXPERIENCE);
   
   // describe terms for each variable
   
-  KNOWLEDGE.addTerm(new Term('poor', 'gauss', [2.123, 0]));
-  KNOWLEDGE.addTerm(new Term('normal', 'gauss', [2.123, 5]));
-  KNOWLEDGE.addTerm(new Term('excellent', 'gauss', [2.123, 10]));
+  UPVOTES.addTerm(new Term('poor', 'gauss', [2.123, 0]));
+  UPVOTES.addTerm(new Term('normal', 'gauss', [2.123, 5]));
+  UPVOTES.addTerm(new Term('excellent', 'gauss', [2.123, 10]));
   
   EXPERIENCE.addTerm(new Term('bad', 'trapeze', [0, 0, 1, 3]));
   EXPERIENCE.addTerm(new Term('good', 'trapeze', [7, 9, 10, 10]));
@@ -99,9 +99,10 @@ module.exports.fuzzyLogic = async (req,res) => {
       'and'
   ),
   ];
-  
+  // console.log(req.session.user)
   // get some calculation
-  var correct=system.getPreciseOutput([8.892, 1.41])
+  var correct=system.getPreciseOutput([req.body.post.upvotes, req.session.user])
+  console.log(correct)
   if(correct<=10){
   console.log(
     'wrong'
@@ -113,7 +114,7 @@ module.exports.fuzzyLogic = async (req,res) => {
     $.ajax({
       url:'plagiarismCheck',
       type:'post',
-      success:res.send(putNFT('ok',req.body))
+      success:res.send(putNFT('ok',req.body.post))
     })
   }
 
