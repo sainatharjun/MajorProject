@@ -82,7 +82,12 @@
             type: 'post',
             data:{post:JSON.stringify(post)},
             success: function(result){
-            alert('NFT Created')
+            $.ajax({
+            url: "/createNFT",
+            type: 'post',
+            data:{post:JSON.stringify(post)},
+            success:(res)=>{alert(res)}
+            })
                     }
             });
         }

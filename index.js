@@ -21,6 +21,7 @@ let getPosts = require('./modeler/getPosts');
 let addReply = require('./modeler/addReply');
 let upvote = require('./modeler/upvote');
 let downvote = require('./modeler/downvote');
+let createNFT = require('./modeler/createNFT');
 
 
 // do url routing
@@ -64,6 +65,11 @@ app.post('/upvote',(req,res)=>{
 app.post('/downvote',(req,res)=>{
     //const s = req.session;
     downvote.downvote(req,res);
+})
+
+app.post('/createNFT',(req,res)=>{
+    //const s = req.session;
+    createNFT.createNFT(req,res);
 })
 
 // listen @ 3000

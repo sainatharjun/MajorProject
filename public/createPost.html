@@ -87,16 +87,18 @@
       var pDesc=$('#pDesc').val()
       var pTimestamp= Date.now()
       // var pOwner=sessionStorage['username']
-      $.ajax({
-        url: "/createPost", 
-        type:'post',
-        data:{pTitle:pTitle,pDesc:pDesc,pTimestamp:pTimestamp,upvotes:0,downvotes:0,pId:Math.floor(100000 + Math.random() * 900000),replies:{}},
-        success: function(result){
+      // $.ajax({
+      //   url: "/createPost", 
+      //   type:'post',
+      //   data:{pTitle:pTitle,pDesc:pDesc,pTimestamp:pTimestamp,upvotes:0,downvotes:0,pId:Math.floor(100000 + Math.random() * 900000),replies:{0:{reply:"default",upvotes:0,downvotes:0}}},
+      //   success: function(result){
     
-          console.log(result)
+      //     console.log(result)
+      //     alert('post created')
     
-    
-        }});
+      //   }});
+        alert('post created')
+
     }
 
   

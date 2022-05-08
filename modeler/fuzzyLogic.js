@@ -31,6 +31,7 @@ function putNFT(a,post){
 
 
 module.exports.fuzzyLogic = async (req,res) => {
+  console.log('ok')
   req.body.post=JSON.parse(req.body.post)
   const {LinguisticVariable, Term, Rule, FIS} = fuzzyis;
   
