@@ -19,12 +19,13 @@
                     let replies=""
                     let keys=Object.keys(res[1])
                     keys.forEach(x => {
-                        console.log(res[1][x].replies)
-                        let replyKeys=Object.keys(res[1][x].replies)
-                        replyKeys.forEach((r)=>{
+                        replies=""
+                        console.log(res[1][x])
+                        // let replyKeys=Object.keys()
+                        res[1][x].replies.forEach((r)=>{
                             replies+=`
-                            <li>${res[1][x].replies[r].reply}<br>
-                                <button>Upvotes:${res[1][x].replies[r].upvotes}</button><button>Downvotes:${res[1][x].replies[r].downvotes}</button></li>
+                            <li>${r.reply}<br>
+                                <button>Upvotes:${r.upvotes}</button><button>Downvotes:${r.downvotes}</button></li>
                             `
                         })
                         text+=`
@@ -58,7 +59,7 @@
                 type:'post',
                 data:{pId:pId},
                 success:(res)=>{
-                    alert(res);
+                    alert('Upvoted');
                     evt.target.disabled=true
                 }
             })
@@ -82,12 +83,24 @@
             type: 'post',
             data:{post:JSON.stringify(post)},
             success: function(result){
-            $.ajax({
-            url: "/createNFT",
-            type: 'post',
-            data:{post:JSON.stringify(post)},
-            success:(res)=>{alert(res)}
-            })
+                console.log(result)
+                $.ajax({
+                url:'/plagiarismCheck',
+                type:'post',
+                data:{post:JSON.stringify(post)},
+                success: function(res){
+                    console.log(res)
+                    let data={post:JSON.stringify(post),owner:JSON.parse(sessionStorage['user']).username,keys:JSON.parse(sessionStorage['user']).keys}
+                    console.log(JSON.parse(sessionStorage['user']).keys)
+                     $.ajax({
+                        url: "/createNFT",
+                        type: 'post',
+                        data:{data:JSON.stringify(data)},
+                        success:(res)=>{alert(res)}
+                        })
+                }
+    })
+            
                     }
             });
         }
@@ -95,8 +108,8 @@
         function addReply(id,pId){
             let replies=JSON.parse($('#replyButton'+id).attr('data-replies'))
             let reply=$('#reply'+id).val()
-            let keys=Object.keys(replies)
-            replies[keys.length]={reply:reply,upvotes:0,downvotes:0}
+            // let keys=Object.keys(replies)
+            replies[replies.length]={reply:reply,upvotes:0,downvotes:0}
             console.log(replies)
             $.ajax({
                 url:'addReply',

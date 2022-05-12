@@ -86,18 +86,19 @@
       var pTitle=$('#pTitle').val()
       var pDesc=$('#pDesc').val()
       var pTimestamp= Date.now()
-      // var pOwner=sessionStorage['username']
-      // $.ajax({
-      //   url: "/createPost", 
-      //   type:'post',
-      //   data:{pTitle:pTitle,pDesc:pDesc,pTimestamp:pTimestamp,upvotes:0,downvotes:0,pId:Math.floor(100000 + Math.random() * 900000),replies:{0:{reply:"default",upvotes:0,downvotes:0}}},
-      //   success: function(result){
+      var pOwner=sessionStorage['username']
+      var post={pTitle:pTitle,pDesc:pDesc,pTimestamp:pTimestamp,upvotes:0,downvotes:0,pId:Math.floor(100000 + Math.random() * 900000),replies:[]}
+      $.ajax({
+        url: "/createPost", 
+        type:'post',
+        data:{data:JSON.stringify(post)},
+        success: function(result){
     
-      //     console.log(result)
-      //     alert('post created')
+          console.log(result)
+          alert('post created')
     
-      //   }});
-        alert('post created')
+        }});
+        // alert('post created')
 
     }
 

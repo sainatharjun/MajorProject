@@ -12,7 +12,7 @@ module.exports.upvote = async (req,res) => {
 
         MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
           var dbo = db.db("NFTForum");
-          dbo.collection("Posts").updateOne({pId:req.body.pId},{$inc:{upvotes:1}}, function(err, res) {
+          dbo.collection("Posts").updateOne({pId:parseInt(req.body.pId)},{$inc:{upvotes:1}}, function(err, res) {
               if (err) throw err;
              
              flag=0;

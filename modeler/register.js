@@ -1,11 +1,14 @@
 //var con = require('./db_connection');
 const { MongoClient } = require('mongodb');
 const url = "mongodb+srv://sainatharjun:saisai71@cluster0.zroar.mongodb.net/SVSB?retryWrites=true&w=majority";
+const BigchainDB = require('bigchaindb-driver')
 
 
 
 
 module.exports.register = async (req,res) => {
+  req.body.keys= new BigchainDB.Ed25519Keypair()
+
         MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
             if (err) throw err;
             var dbo = db.db("NFTForum");

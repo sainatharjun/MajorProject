@@ -42,7 +42,7 @@ function createAsset(asset, alice) {
     // Send the transaction off to BigchainDB
     conn.postTransactionCommit(txSigned)
         .then(res => {
-            console.log('Transaction created'+txSigned.id);
+            console.log('Transaction created id: '+txSigned.id);
         })
        
         return txSigned.id
@@ -58,9 +58,10 @@ function createAsset(asset, alice) {
 module.exports.createNFT = async (req,res) => {
 // var sessionStorage=req.session
 // const user=sessionStorage.user;
- const userKeys = new BigchainDB.Ed25519Keypair()
-
-const asset = req.body;
+req.body.data=JSON.parse(req.body.data)
+ const userKeys = req.body.data.keys
+console.log(req.body.data)
+const asset = JSON.parse(req.body.data.post);
 //console.log(asset)
 var txnId=createAsset(asset, userKeys)
 // conn.searchAssets('Barca')
@@ -73,7 +74,7 @@ var txnId=createAsset(asset, userKeys)
         
         // db.close();
         var dbo = db.db("NFTForum");
-        var myobj = req.body
+        var myobj = {post:JSON.parse(req.body.data.post), owner:req.body.data.owner}
         // myobj.txnId=txnId
         dbo.collection("NFTs").insertOne(myobj, function(err, res) {
           if (err) throw err;

@@ -11,7 +11,8 @@ const url = "mongodb+srv://sainatharjun:saisai71@cluster0.zroar.mongodb.net/SVSB
 module.exports.createPost = async (req,res) => {
         MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
           var dbo = db.db("NFTForum");
-          dbo.collection("Posts").insertOne(req.body, function(err, res) {
+          req.body.data=JSON.parse(req.body.data)
+          dbo.collection("Posts").insertOne(req.body.data, function(err, res) {
               if (err) throw err;
              
              flag=0;

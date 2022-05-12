@@ -8,22 +8,22 @@ const fuzzyis = require('fuzzyis');
 
 
 function putNFT(a,post){
-  console.log(post)
-  console.log('Plagiarism Check Done')
+  // console.log(post)
+  // console.log('Plagiarism Check Done')
   if(a='ok'){
 
-    MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
-      var dbo = db.db("NFTForum");
-      dbo.collection("NFTs").insertOne(post, function(err, resultt) {
-          if (err) throw err;
+    // MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
+    //   var dbo = db.db("NFTForum");
+    //   dbo.collection("NFTs").insertOne(post, function(err, resultt) {
+    //       if (err) throw err;
          
-         flag=0;
-          console.log(resultt)
-        });
-        var send="NFT Created!"
-        return send
+    //      flag=0;
+    //       console.log(resultt)
+    //     });
+    //     var send="NFT Created!"
+    //     return send
       
-      });
+    //   });
 
 
   }
@@ -31,7 +31,7 @@ function putNFT(a,post){
 
 
 module.exports.fuzzyLogic = async (req,res) => {
-  console.log('ok')
+  // console.log('ok')
   req.body.post=JSON.parse(req.body.post)
   const {LinguisticVariable, Term, Rule, FIS} = fuzzyis;
   
@@ -112,11 +112,7 @@ module.exports.fuzzyLogic = async (req,res) => {
 }
   else{
     console.log('correct')
-    $.ajax({
-      url:'plagiarismCheck',
-      type:'post',
-      success:res.send(putNFT('ok',req.body.post))
-    })
+    res.send('correct')
   }
 
   

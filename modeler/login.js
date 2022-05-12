@@ -15,7 +15,7 @@ module.exports.login = (req,res) => {
             
             // db.close();
             var dbo = db.db("NFTForum");
-            query={email:req.body.email}
+            query={username:req.body.username}
             dbo.collection("Users").find(query).toArray(function(err, result) {
                 if (err) throw err;
                 if(result.length>0&&req.body.password==result[0].password){

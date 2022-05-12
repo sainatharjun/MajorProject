@@ -12,9 +12,9 @@ module.exports.addReply = async (req,res) => {
 
         MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
           var dbo = db.db("NFTForum");
-          dbo.collection("Posts").updateOne({pId:req.body.pId},{$set:{replies:JSON.parse(req.body.replies)}}, function(err, res) {
-              if (err) throw err;
-             
+          console.log(req.body.pId)
+          dbo.collection("Posts").updateOne({pId:parseInt(req.body.pId)},{$set:{replies:JSON.parse(req.body.replies)}}, function(err, res) {
+              if (err) console.log(err) ;
              flag=0;
               console.log(res)
             });

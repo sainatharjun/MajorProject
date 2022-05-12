@@ -13,7 +13,7 @@
     <script>
         document.addEventListener('DOMContentLoaded',function(){
             $.ajax({
-                url:'getPosts',
+                url:'getNFTs',
                 success: (res)=>{
                     let text=""
                     res[1].forEach(x => {
@@ -21,9 +21,10 @@
 
                         text+=`
                         <div class="post">
-                        <div class="post-title"><h5 style="margin:0;font-size:30px">${x.pTitle}</h5></div>
-                        <div class="post-desc">${x.pDesc}</div>
+                        <div class="post-title"><h5 style="margin:0;font-size:30px">${x.post.pTitle}</h5></div>
+                        <div class="post-desc">${x.post.pDesc}</div>
                         <div class="post-time">Created on: ${Date(x.pTimestamp)}</div>
+                        <div class="post-desc">${x.owner}</div>
                         </div>
                         `
                     });    

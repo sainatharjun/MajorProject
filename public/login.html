@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  
-</body><!DOCTYPE html>
-<html lang="en">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum</title>
@@ -99,10 +90,12 @@
         type:'post',
         data:{username,password},
         success: function(result){
-          sessionStorage['user']=result[1]
+          sessionStorage['user']=JSON.stringify(result[1])
           console.log(result)
+          if(result[0]=='success')
           location.replace('detail.html')
-    
+          else
+          alert('Wrong Credentials')
         }});
     }
 

@@ -2,6 +2,7 @@
 const { MongoClient } = require('mongodb');
 const url = "mongodb+srv://sainatharjun:saisai71@cluster0.zroar.mongodb.net/SVSB?retryWrites=true&w=majority";
 const { JSDOM } = require( "jsdom" );
+const { post } = require('jquery');
 const { window } = new JSDOM( "" );
 const $ = require( "jquery" )( window );
 
@@ -10,8 +11,8 @@ const $ = require( "jquery" )( window );
 
 
 module.exports.plagiarismCheck = async (req,res) => {
-   
-       
+      var post=JSON.parse(req.body.post)
+       console.log('Plagiarism Check in Progress')
   var request = require('request');
   var accessToken;
 
@@ -23,7 +24,7 @@ module.exports.plagiarismCheck = async (req,res) => {
   
   var dataString = {
     "email": "sainatharjun4@gmail.com",
-    "key": "880cea6a-65c1-4d3f-a118-27342070c539"
+    "key": "be600c6d-a89a-4a68-b16f-3baa147a072c"
   };
   
   var options = {
@@ -35,8 +36,9 @@ module.exports.plagiarismCheck = async (req,res) => {
   
   function callback(error, response, body) {
       if (!error && response.statusCode == 200) {
-          console.log(body);
+        body=JSON.parse(body)
           accessToken=body['access_token']
+          console.log(body);
       }
 
       headers = {
@@ -57,8 +59,8 @@ module.exports.plagiarismCheck = async (req,res) => {
           "id": "Author id"
         },
         "webhooks": {
-          "newResult": "https://yoursite.com/webhook/new-result",
-          "status": "https://yoursite.com/webhook/{STATUS}/my-custom-id"
+          "newResult": "http://example.com/webhook/new-result",
+          "status": "http://localhost:3000/{STATUS}/100"
         },
         "filters": {
           "identicalEnabled": true,
@@ -84,7 +86,7 @@ module.exports.plagiarismCheck = async (req,res) => {
     };
     
     var options = {
-        url: 'https://api.copyleaks.com/v3/education/submit/url/my-custom-id',
+        url: 'https://api.copyleaks.com/v3/education/submit/url/003',
         method: 'PUT',
         headers: headers,
         body: JSON.stringify(dataString)
@@ -92,12 +94,13 @@ module.exports.plagiarismCheck = async (req,res) => {
     
     function callback(error, response, body) {
       // console.log(body);
-      // console.log(response);
+        // console.log(response);
       // console.log(error);
     
     
         if (!error) {
-            console.log(body);
+             console.log(body);
+             
         }
     }
     
@@ -114,7 +117,7 @@ module.exports.plagiarismCheck = async (req,res) => {
 
   //--------------------------------------
 
-
+  res.send('Sent for Plagiarism Check')
   
 
 }

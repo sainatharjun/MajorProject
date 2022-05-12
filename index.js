@@ -22,7 +22,7 @@ let addReply = require('./modeler/addReply');
 let upvote = require('./modeler/upvote');
 let downvote = require('./modeler/downvote');
 let createNFT = require('./modeler/createNFT');
-
+let getNFTs= require('./modeler/getNFTs')
 
 // do url routing
 app.get('/',(req,res)=>{
@@ -40,6 +40,7 @@ app.post('/register',(req,res)=>{
 })
 app.post('/plagiarismCheck',(req,res)=>{
     //const s = req.session;
+    console.log('going to go to plag check')
     plagiarismCheck.plagiarismCheck(req,res);
 })
 app.post('/fuzzyLogic',(req,res)=>{
@@ -50,8 +51,13 @@ app.get('/getPosts',(req,res)=>{
     //const s = req.session;
     getPosts.getPosts(req,res);
 })
+app.get('/getNFTs',(req,res)=>{
+    //const s = req.session;
+    getNFTs.getNFTs(req,res);
+})
 app.post('/createPost',(req,res)=>{
     //const s = req.session;
+    console.log('ok')
     createPost.createPost(req,res);
 })
 app.post('/addReply',(req,res)=>{
@@ -70,6 +76,13 @@ app.post('/downvote',(req,res)=>{
 app.post('/createNFT',(req,res)=>{
     //const s = req.session;
     createNFT.createNFT(req,res);
+})
+
+app.post('/webhook/completed/100',(req,res)=>{
+    res.sendStatus(200)
+})
+app.post('/webhook/error/100',(req,res)=>{
+    res.sendStatus(200)
 })
 
 // listen @ 3000
